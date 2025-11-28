@@ -20,7 +20,7 @@ class LungVisualizer:
 
     @staticmethod
     def plot_ct_with_annotations(ct_slice, lung_mask=None, nodule_mask=None,
-                                 annotations=None, title="CT Scan", figsize=(15, 5)):
+                                 annotations=None, title="CT Scan", figsize=(18, 5)):
         """
         Visualiza slice de CT con máscaras y anotaciones
 
@@ -32,7 +32,11 @@ class LungVisualizer:
             title (str): Título de la figura
             figsize (tuple): Tamaño de la figura
         """
-        n_plots = 1 + (lung_mask is not None) + (nodule_mask is not None)
+        # Si hay lung_mask, mostrar 3 imágenes: original, lung_only, mask
+        if lung_mask is not None:
+            n_plots = 3
+        else:
+            n_plots = 1 + (nodule_mask is not None)
 
         fig, axes = plt.subplots(1, n_plots, figsize=figsize)
         if n_plots == 1:
@@ -57,12 +61,31 @@ class LungVisualizer:
 
         plot_idx += 1
 
-        # Segmentación pulmonar
+        # Segmentación pulmonar (solo región pulmonar)
         if lung_mask is not None:
-            axes[plot_idx].imshow(ct_slice, cmap='bone')
-            axes[plot_idx].imshow(lung_mask, cmap='Reds', alpha=0.3)
-            axes[plot_idx].set_title("Segmentación Pulmonar")
+            # Aplicar máscara: mostrar solo región pulmonar
+            ct_lung_only = ct_slice * lung_mask
+            axes[plot_idx].imshow(ct_lung_only, cmap='bone')
+            axes[plot_idx].set_title("Solo Región Pulmonar")
             axes[plot_idx].axis('off')
+
+            # Dibujar anotaciones de nódulos también
+            if annotations is not None:
+                for ann in annotations:
+                    circle = Circle((ann['x'], ann['y']),
+                                  ann['diameter']/2,
+                                  color='yellow',
+                                  fill=False,
+                                  linewidth=2)
+                    axes[plot_idx].add_patch(circle)
+
+            plot_idx += 1
+
+            # Máscara binaria del pulmón
+            axes[plot_idx].imshow(lung_mask, cmap='gray')
+            axes[plot_idx].set_title("Máscara Pulmonar")
+            axes[plot_idx].axis('off')
+
             plot_idx += 1
 
         # Nódulos detectados

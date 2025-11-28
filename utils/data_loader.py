@@ -41,7 +41,7 @@ class LUNA16DataLoader:
 
         if annotations_path and os.path.exists(annotations_path):
             self.annotations = pd.read_csv(annotations_path)
-            print(f"✅ Anotaciones cargadas: {len(self.annotations)} nódulos")
+            print(f"Anotaciones cargadas: {len(self.annotations)} nódulos")
 
     def load_itk_image(self, filename):
         """
