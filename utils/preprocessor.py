@@ -11,6 +11,7 @@ import numpy as np
 import cv2
 from skimage import measure, morphology
 from skimage.segmentation import clear_border
+from scipy.ndimage import binary_fill_holes
 
 
 class LungPreprocessor:
@@ -70,7 +71,7 @@ class LungPreprocessor:
 
         # Operaciones morfológicas para suavizar
         mask = morphology.binary_dilation(mask, morphology.disk(2))
-        mask = morphology.binary_fill_holes(mask)
+        mask = binary_fill_holes(mask)
         mask = morphology.binary_erosion(mask, morphology.disk(2))
 
         return mask.astype(np.uint8)

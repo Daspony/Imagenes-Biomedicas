@@ -1,0 +1,28 @@
+# Core dependencies
+numpy
+pandas
+matplotlib
+scipy
+
+# Image processing
+opencv-python
+scikit-image
+Pillow
+
+# Medical imaging
+SimpleITK
+
+# Deep Learning
+torch
+torchvision
+
+# Utilities
+tqdm
+requests
+
+# Machine Learning
+scikit-learn
+
+# Jupyter
+jupyter
+ipywidgets
