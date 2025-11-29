@@ -8,10 +8,13 @@ Proyecto de procesamiento y análisis de imágenes médicas CT para detección d
 
 Si prefieres usar Google Colab (no requiere instalación local):
 
-1. Abre cualquier notebook directamente desde GitHub:
-   - [01_preprocesamiento.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/01_preprocesamiento.ipynb)
-   - [02_visualizacion.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/02_visualizacion.ipynb)
-   - [05_denoising.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/05_denoising.ipynb)
+. Abre cualquier notebook directamente desde GitHub (Click en el enlace):
+   - [01_preprocesamiento.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/01_preprocesamiento.ipynb) (Funcionando)
+   - [02_visualizacion.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/02_visualizacion.ipynb) (Funcionando)
+   - [03_nodulos.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/03_nodulos.ipynb) (No testeado)
+   - [04_clasificacion.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/04_clasificacion.ipynb) (No testeado)
+   - [05_denoising.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/05_denoising.ipynb) (No testeado)
+
 2. Ejecuta las celdas - el código clonará el repositorio y descargará los datos automáticamente
 
 **Ventajas:**
