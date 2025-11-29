@@ -138,17 +138,27 @@ def _download_luna16_batch(file_keys, download_dir):
             print(f"Descomprimiendo {filename}...")
 
             try:
-                # Crear directorio de destino
-                extracted_dir.mkdir(parents=True, exist_ok=True)
-
-                # Descomprimir
                 with zipfile.ZipFile(dest_path, 'r') as zip_ref:
                     # Obtener lista de archivos
                     members = zip_ref.namelist()
 
+                    # Detectar si el zip tiene una carpeta raíz (ej: subset1/archivo.mhd)
+                    # Si todos los archivos empiezan con "subsetX/", extraer al directorio padre
+                    has_root_folder = all(m.startswith(f"{file_key}/") or m == f"{file_key}" for m in members if m)
+
+                    if has_root_folder:
+                        # Extraer directamente a download_dir (el zip ya tiene la carpeta)
+                        extract_to = download_dir
+                        print(f"[INFO] Zip contiene carpeta {file_key}/, extrayendo a {download_dir}")
+                    else:
+                        # El zip no tiene carpeta raíz, crear extracted_dir
+                        extracted_dir.mkdir(parents=True, exist_ok=True)
+                        extract_to = extracted_dir
+                        print(f"[INFO] Zip sin carpeta raíz, extrayendo a {extracted_dir}")
+
                     # Descomprimir con barra de progreso
                     for member in tqdm(members, desc=f"Extrayendo {file_key}", unit="archivo"):
-                        zip_ref.extract(member, extracted_dir)
+                        zip_ref.extract(member, extract_to)
 
                 print(f"[OK] {file_key} descomprimido correctamente")
 

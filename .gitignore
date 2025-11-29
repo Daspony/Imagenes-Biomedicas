@@ -5,3 +5,20 @@
 /lung_nodule_pipeline.ipynb
 /Proyecto_Imagenes_biomed.zip
 /test_download.py
+
+# nnU-Net (archivos grandes de preprocesamiento y entrenamiento)
+/nnUNet_raw
+/nnUNet_preprocessed
+/nnUNet_results
+
+# Archivos temporales de datos
+*.nii.gz
+*.nii
+data/*.hdf5
+
+# Cache
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+.cache/

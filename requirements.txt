@@ -12,6 +12,7 @@ Pillow
 # Medical imaging
 SimpleITK
 pydicom
+pylidc
 
 # Deep Learning
 torch

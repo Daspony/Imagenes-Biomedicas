@@ -8,23 +8,26 @@ Proyecto de procesamiento y análisis de imágenes médicas CT para detección d
 
 Si prefieres usar Google Colab (no requiere instalación local):
 
-. Abre cualquier notebook directamente desde GitHub (Click en el enlace):
-   - [01_preprocesamiento.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/01_preprocesamiento.ipynb) (Funcionando)
-   - [02_visualizacion.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/02_visualizacion.ipynb) (Funcionando)
-   - [03_nodulos.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/03_nodulos.ipynb) (No testeado)
-   - [04_clasificacion.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/04_clasificacion.ipynb) (No testeado)
-   - [05_denoising.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/05_denoising.ipynb) (No testeado)
-
+1. Abre cualquier notebook directamente desde GitHub:
+   - [00_preparacion_datos.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/00_preparacion_datos.ipynb) - Descarga y verificación de datos
+   - [01_preprocesamiento.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/01_preprocesamiento.ipynb) - Preprocesamiento + máscaras LIDC
+   - [02_visualizacion.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/02_visualizacion.ipynb) - Visualización + comparación LUNA16 vs LIDC
+   - [03_nnunet_segmentacion.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/03_nnunet_segmentacion.ipynb) - Segmentación con nnU-Net (Recomendado en Colab)
+   - [04_clasificacion.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/04_clasificacion.ipynb) *(No testeado)*
+   - [05_denoising.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/05_denoising.ipynb)
+   - [06_pipeline_completo.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/06_pipeline_completo.ipynb) - Pipeline integrado
 2. Ejecuta las celdas - el código clonará el repositorio y descargará los datos automáticamente
+3. Para notebooks con entrenamiento (03_nnunet), los resultados se guardan en Google Drive
 
 **Ventajas:**
 - No requiere instalación local
-- GPU gratuita disponible
+- GPU gratuita disponible (T4)
+- Resultados persistentes en Google Drive
 - Todo en la nube
 
 **Desventajas:**
 - Sesión limitada a 12 horas
-- Debes volver a descargar datos si la sesión expira
+- Debes volver a descargar LUNA16 si la sesión expira (los resultados se mantienen en Drive)
 
 ---
 
@@ -142,12 +145,13 @@ Ejecuta las celdas secuencialmente con `Shift + Enter` o usa el botón "Run All"
 ```
 Imagenes-Biomedicas/
 ├── notebooks/                    # Notebooks Jupyter
-│   ├── 00_pipeline_completo.ipynb   # Pipeline completo
-│   ├── 01_preprocesamiento.ipynb    # Preprocesamiento de CT
-│   ├── 02_visualizacion.ipynb       # Visualización avanzada
-│   ├── 03_nodulos.ipynb             # Segmentación de nódulos (U-Net)
-│   ├── 04_clasificacion.ipynb       # Clasificación benigno/maligno
-│   └── 05_denoising.ipynb           # Simulación de ruido y denoising
+│   ├── 00_preparacion_datos.ipynb      # Descarga LUNA16 y verificación LIDC
+│   ├── 01_preprocesamiento.ipynb       # Preprocesamiento + máscaras LIDC
+│   ├── 02_visualizacion.ipynb          # Visualización + comparación LUNA16 vs LIDC
+│   ├── 03_nnunet_segmentacion.ipynb    # Segmentación con nnU-Net v2
+│   ├── 04_clasificacion.ipynb          # Clasificación benigno/maligno
+│   ├── 05_denoising.ipynb              # Simulación de ruido y denoising
+│   └── 06_pipeline_completo.ipynb      # Pipeline integrado completo
 │
 ├── utils/                        # Módulos de código reutilizable
 │   ├── __init__.py
@@ -155,7 +159,8 @@ Imagenes-Biomedicas/
 │   ├── preprocessor.py              # Preprocesamiento de imágenes
 │   ├── visualizer.py                # Funciones de visualización
 │   ├── metrics.py                   # Métricas de evaluación
-│   └── download_luna16.py           # Descarga automática de datos
+│   ├── download_luna16.py           # Descarga automática de datos
+│   └── lidc_loader.py               # Integración con LIDC-IDRI (pylidc)
 │
 ├── data/                         # Datos de Kaggle (clasificación)
 │   ├── all_patches.hdf5             # Patches de nódulos
@@ -176,6 +181,15 @@ Imagenes-Biomedicas/
 
 ## Notebooks Disponibles
 
+### 00_preparacion_datos.ipynb
+
+**Contenido:**
+- Descarga automática de LUNA16 (subset0)
+- Verificación de solapamiento con LIDC-IDRI
+- Lista de escaneos con anotaciones disponibles
+
+**Tiempo de ejecución:** ~30-60 minutos (primera descarga)
+
 ### 01_preprocesamiento.ipynb
 
 **Contenido:**
@@ -185,8 +199,9 @@ Imagenes-Biomedicas/
 - CLAHE para realce de contraste
 - Explicación del algoritmo `clear_border()`
 - Comparación de diferentes thresholds
+- **Máscaras de nódulos LIDC-IDRI** (alineadas con coordenadas LUNA16)
 
-**Tiempo de ejecución:** ~5-10 minutos (primera vez incluye descarga de datos)
+**Tiempo de ejecución:** ~5-10 minutos
 
 ### 02_visualizacion.ipynb
 
@@ -197,14 +212,25 @@ Imagenes-Biomedicas/
 - Máscaras de segmentación
 - Mapas de calor de densidad
 - Controles interactivos
+- **Comparación LUNA16 vs LIDC:** Visualización de 6 paneles comparando el método de diámetro (LUNA16) con las máscaras de cada radiólogo (LIDC-IDRI)
 
-### 03_nodulos.ipynb
+### 03_nnunet_segmentacion.ipynb
 
 **Contenido:**
-- Arquitectura U-Net + EfficientNet-B3 para segmentación
-- Extracción de patches centrados en nódulos
-- Dataset y DataLoader para PyTorch
-- **Estado:** Template - requiere entrenamiento con máscaras de LIDC-IDRI
+- Pipeline completo para entrenar nnU-Net v2 con máscaras LIDC-IDRI
+- Conversión automática de datos LUNA16 a formato NIfTI
+- Split Train/Val/Test (70/15/15)
+- Preprocesamiento y entrenamiento con nnU-Net
+- Inferencia en nuevos casos
+- **Detección automática:** El notebook detecta si los datos ya fueron preparados y salta pasos completados
+- **Google Colab:** Guarda resultados en Google Drive para no perderlos
+
+**Recomendado ejecutar en Google Colab** (requiere GPU y mucha RAM)
+
+**Tiempo de ejecución:**
+- Preparación de datos: ~10 minutos
+- Preprocesamiento nnU-Net: ~15 minutos
+- Entrenamiento (2D, 1 fold): ~2-6 horas
 
 ### 04_clasificacion.ipynb
 
@@ -229,6 +255,17 @@ Imagenes-Biomedicas/
 **Tiempo de ejecución:** ~10-15 minutos (incluye entrenamiento)
 
 **Dataset opcional:** [Mayo Clinic LDCT (TCIA)](https://www.cancerimagingarchive.net/collection/ldct-and-projection-data/) - 1.32 TB de pares reales
+
+### 06_pipeline_completo.ipynb
+
+**Contenido:**
+- Pipeline integrado que combina todos los módulos
+- Módulo 1: Preparación de datos (descarga LUNA16)
+- Módulo 2: Preprocesamiento (máscaras pulmonares + nódulos LIDC)
+- Módulo 3: Visualización (pipeline completo)
+- Módulo 4: Métricas y análisis
+
+**Nota:** Este notebook integra el flujo completo referenciando los notebooks individuales para detalles.
 
 ---
 
