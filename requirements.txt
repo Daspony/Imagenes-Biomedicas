@@ -11,14 +11,17 @@ Pillow
 
 # Medical imaging
 SimpleITK
+pydicom
 
 # Deep Learning
 torch
 torchvision
+segmentation-models-pytorch
 
 # Utilities
 tqdm
 requests
+h5py
 
 # Machine Learning
 scikit-learn

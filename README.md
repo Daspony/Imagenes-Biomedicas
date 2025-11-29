@@ -8,12 +8,11 @@ Proyecto de procesamiento y análisis de imágenes médicas CT para detección d
 
 Si prefieres usar Google Colab (no requiere instalación local):
 
-1. Abre Google Colab: https://colab.research.google.com/
-2. File > Upload notebook
-3. Sube `notebooks/01_preprocesamiento.ipynb`
-4. Ejecuta las celdas
-5. El código clonará automáticamente el repositorio desde GitHub
-6. Descargará los datos automáticamente
+1. Abre cualquier notebook directamente desde GitHub:
+   - [01_preprocesamiento.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/01_preprocesamiento.ipynb)
+   - [02_visualizacion.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/02_visualizacion.ipynb)
+   - [05_denoising.ipynb](https://colab.research.google.com/github/Daspony/Imagenes-Biomedicas/blob/main/notebooks/05_denoising.ipynb)
+2. Ejecuta las celdas - el código clonará el repositorio y descargará los datos automáticamente
 
 **Ventajas:**
 - No requiere instalación local
@@ -142,7 +141,10 @@ Imagenes-Biomedicas/
 ├── notebooks/                    # Notebooks Jupyter
 │   ├── 00_pipeline_completo.ipynb   # Pipeline completo
 │   ├── 01_preprocesamiento.ipynb    # Preprocesamiento de CT
-│   └── 02_visualizacion.ipynb       # Visualización avanzada
+│   ├── 02_visualizacion.ipynb       # Visualización avanzada
+│   ├── 03_nodulos.ipynb             # Segmentación de nódulos (U-Net)
+│   ├── 04_clasificacion.ipynb       # Clasificación benigno/maligno
+│   └── 05_denoising.ipynb           # Simulación de ruido y denoising
 │
 ├── utils/                        # Módulos de código reutilizable
 │   ├── __init__.py
@@ -151,6 +153,12 @@ Imagenes-Biomedicas/
 │   ├── visualizer.py                # Funciones de visualización
 │   ├── metrics.py                   # Métricas de evaluación
 │   └── download_luna16.py           # Descarga automática de datos
+│
+├── data/                         # Datos de Kaggle (clasificación)
+│   ├── all_patches.hdf5             # Patches de nódulos
+│   └── malignancy.csv               # Etiquetas benigno/maligno
+│
+├── weights/                      # Pesos de modelos entrenados
 │
 ├── LUNA16/                       # Dataset (se crea al descargar)
 │   ├── subset0/
@@ -186,6 +194,38 @@ Imagenes-Biomedicas/
 - Máscaras de segmentación
 - Mapas de calor de densidad
 - Controles interactivos
+
+### 03_nodulos.ipynb
+
+**Contenido:**
+- Arquitectura U-Net + EfficientNet-B3 para segmentación
+- Extracción de patches centrados en nódulos
+- Dataset y DataLoader para PyTorch
+- **Estado:** Template - requiere entrenamiento con máscaras de LIDC-IDRI
+
+### 04_clasificacion.ipynb
+
+**Contenido:**
+- Clasificador ResNet18 para nódulos (benigno/maligno)
+- Dataset de Kaggle con 6691 patches etiquetados
+- Entrenamiento completo con métricas
+- Curva ROC, matriz de confusión
+- **Requiere:** Descargar dataset de [Kaggle](https://www.kaggle.com/datasets/kmader/lungnodemalignancy)
+
+### 05_denoising.ipynb
+
+**Contenido:**
+- Simulación de ruido LDCT (Low Dose CT) a partir de NDCT
+- Modelos de ruido: Gaussiano, Poisson, CT realista
+- Técnicas clásicas: Bilateral, TV, Non-Local Means
+- Deep Learning: DnCNN (Denoising CNN)
+- Métricas de calidad: PSNR, SSIM
+- Comparación de métodos clásicos vs deep learning
+- **Soporte para Mayo Clinic LDCT dataset** (pares reales NDCT/LDCT)
+
+**Tiempo de ejecución:** ~10-15 minutos (incluye entrenamiento)
+
+**Dataset opcional:** [Mayo Clinic LDCT (TCIA)](https://www.cancerimagingarchive.net/collection/ldct-and-projection-data/) - 1.32 TB de pares reales
 
 ---
 
