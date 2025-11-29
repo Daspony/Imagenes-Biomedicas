@@ -4,6 +4,30 @@ Proyecto de procesamiento y análisis de imágenes médicas CT para detección d
 
 ---
 
+## Uso en Google Colab
+
+Si prefieres usar Google Colab (no requiere instalación local):
+
+1. Abre Google Colab: https://colab.research.google.com/
+2. File > Upload notebook
+3. Sube `notebooks/01_preprocesamiento.ipynb`
+4. Ejecuta las celdas
+5. El código clonará automáticamente el repositorio desde GitHub
+6. Descargará los datos automáticamente
+
+**Ventajas:**
+- No requiere instalación local
+- GPU gratuita disponible
+- Todo en la nube
+
+**Desventajas:**
+- Sesión limitada a 12 horas
+- Debes volver a descargar datos si la sesión expira
+
+---
+
+## Ejecución Local
+
 ## Requisitos Previos
 
 - Python 3.8 o superior
@@ -26,7 +50,7 @@ cd Imagenes-Biomedicas
 **Windows:**
 ```bash
 python -m venv .venv
-.venv\Scripts\activate.ps1
+.venv\Scripts\Activate.ps1
 ```
 
 **Linux/Mac:**
@@ -171,7 +195,7 @@ Imagenes-Biomedicas/
 
 **Solución:** Asegúrate de tener el entorno virtual activado e instala las dependencias:
 ```bash
-.venv\Scripts\activate  # Windows
+.venv\Scripts\Activate.ps1 # Windows
 pip install -r requirements.txt
 ```
 
@@ -201,29 +225,6 @@ pip install -r requirements.txt
 - **Anotaciones:** CSV con coordenadas de nódulos
 - **Fuente:** https://zenodo.org/record/3723295
 
----
-
-## Uso en Google Colab
-
-Si prefieres usar Google Colab (no requiere instalación local):
-
-1. Abre Google Colab: https://colab.research.google.com/
-2. File > Upload notebook
-3. Sube `notebooks/01_preprocesamiento.ipynb`
-4. Ejecuta las celdas
-5. El código clonará automáticamente el repositorio desde GitHub
-6. Descargará los datos automáticamente
-
-**Ventajas:**
-- No requiere instalación local
-- GPU gratuita disponible
-- Todo en la nube
-
-**Desventajas:**
-- Sesión limitada a 12 horas
-- Debes volver a descargar datos si la sesión expira
-
----
 
 ## Referencias
 
